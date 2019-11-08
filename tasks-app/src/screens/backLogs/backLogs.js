@@ -1,46 +1,65 @@
 import React from "react";
+//import { connect } from "react-redux";
 import BackLogsTask from "../../components/backLogs-task.component"
+import "./backLogs.css"
 
 const BackLogsComponent = () => {
-    const tasks = {
-        task1: {
+   
+    const backLogsTasks = {
+        task11: {
             name: 'task1',
             description: 'asdkhgjkahsfd'
         },
-        task2: {
+        task12: {
             name: 'task2',
             description: 'zxczxczx' 
         },
-        task3: {
+        task13: {
             name: 'task1',
             description: 'asdkhgjkahsfd'
         },
-        task4: {
+        task14: {
             name: 'task2',
             description: 'zxczxczx' 
         },
-        task5: {
+        task15: {
             name: 'task1',
             description: 'asdkhgjkahsfd'
         },
-        task6: {
+        task16: {
             name: 'task2',
             description: 'zxczxczx' 
         },
-    }
+    };
+
+     
+
     return (
        <div className="column color">
-         <div className="text-center">Backlogs</div>
+         <div className="text-center font-weight-bold t-color">Backlogs</div>
          
-          {Object.keys(tasks).map( key => (
+          {Object.keys(backLogsTasks).map( key => (
             <BackLogsTask 
-            name={tasks[key].name} 
-            description={tasks[key].description}
+            name={backLogsTasks[key].name} 
+            description={backLogsTasks[key].description}
             />
               
           ))}
+          <button className="btn btn-primary mt-2" onClick={() =>addTask()}> Add a task </button>
        </div>
     );
 };
+
+const addTask = () =>{
+    console.log('add task');
+}
+ 
+
+
+// const mapStateToProps = state => {
+//     return {
+//       availableTasks: state.dashboard.availableCards
+//     };
+//   };
 
 export default BackLogsComponent;
