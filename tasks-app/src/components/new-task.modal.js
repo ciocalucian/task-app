@@ -1,52 +1,57 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import NewCard from "./new-card";
-import '../../dashboard/dashboard.css';
+import form from "react-hook-form";
 
-function NewCardModal(props) {
-    
-    
-    return (
-        <Modal
-            {...props}
-            size="sm"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-            className="db-new-card-modal"
-        >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Select Activity Cards
-                    <div className="text-muted">
-                        {" "}
-                        Please select as many cards as you see fit for your
-                        dashboard quick overview
-                    </div>
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                {Object.keys(availableCards).map(key => (
-                    <section key={key}>
-                    <p className="section-name">{key}</p>
-                    <div className="d-flex flex-wrap">
-                        {availableCards[key].map(card => (
-                            <NewCard
-                                onClick={() => onCardClick(key, card.name)}
-                                key={card.name}
-                                title={card.name}
-                                details={card.text}
-                                selected={card.selected}
-                            ></NewCard>
-                        ))}
-                    </div>
-                    </section>
-                ))}
-            </Modal.Body>
-            <Modal.Footer>
-                <button onClick={props.onHide}>Close</button>
-            </Modal.Footer>
-        </Modal>
-    );
+function NewTaskModal(props) {
+// sendTask () {
+//   props.addTask()
+// }
+//usestate
+
+  return (
+    <Modal {...props} size="lg" onHide={props.handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title></Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="container-fluid">
+        <form
+            name="newTask"
+            onSubmit={props.handleClose}
+          >
+            <div className="row mb-3">
+            <div >
+                  <span >
+                      <span >Task Name</span>
+                    <input
+                      name="no"
+                      type="text"
+                      //value={props.data.name}
+                    ></input>
+                    
+                  </span>
+                </div>
+                <div >
+                  <span>
+                      <span >Task Description</span>
+                    <input
+                      name="no"
+                      type="text"
+                      //value={props.data.description}
+                    ></input>
+                    
+                  </span>
+                </div>
+            </div>
+          </form>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <button onClick={props.addTask}>Add</button>
+        <button onClick={props.handleClose}>Close</button>
+      </Modal.Footer>
+    </Modal>
+  );
 }
 
-export default NewCardModal;
+export default NewTaskModal;

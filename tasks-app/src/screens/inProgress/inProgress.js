@@ -1,47 +1,39 @@
-import React from "react";
-//import { connect } from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import BackLogsTask from "../../components/backLogs-task.component";
 import "./inProgress.css"
 
-const InProgressComponent = () => {
-    const inProgressTasks = {
-        task21: {
-            name: 'task1',
-            description: 'asdkhgjkahsfd'
-        },
-        task22: {
-            name: 'task2',
-            description: 'zxczxczx' 
-        },
-        task23: {
-            name: 'task1',
-            description: 'asdkhgjkahsfd'
-        }
-    }
+class InProgressComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {      
+  };
+};
+
+render() {
+  const tasks = {...this.props.initialTasks};
     return (
        <div className="column color">
          <div className="text-center font-weight-bold t-color">In Progress</div>
          
-          {Object.keys(inProgressTasks).map( key => (
+          {Object.keys(tasks).map( key => (
             <BackLogsTask 
-            name={inProgressTasks[key].name} 
-            description={inProgressTasks[key].description}
+            name={tasks[key].name} 
+            description={tasks[key].description}
             />
               
           ))}
        </div>
     );
 };
-
- const addTask = () => {
-     console.log('add task');
- }
+}
 
 
-// const mapStateToProps = state => {
-//     return {
-//       availableTasks: state.dashboard.availableCards
-//     };
-//   };
 
-export default InProgressComponent;
+ const mapStateToProps = state => {
+  return{
+    initialTasks: state.inProgressTasks
+  };
+};
+
+export default connect(mapStateToProps)(InProgressComponent);

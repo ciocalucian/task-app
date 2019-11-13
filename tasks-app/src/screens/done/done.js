@@ -1,15 +1,11 @@
 import React from "react";
-//import { connect } from "react-redux";
+import { connect } from "react-redux";
 import BackLogsTask from "../../components/backLogs-task.component"
 import "./done.css"
 
 const DoneComponent = (props) => {
-    const tasks = {
-        task41: {
-            name: 'task1',
-            description: 'asdkhgjkahsfd'
-        }
-    }
+    const tasks = {...props.initialTasks}
+
     return (
        <div className="column color">
          <div className="text-center font-weight-bold t-color">Done</div>
@@ -26,15 +22,11 @@ const DoneComponent = (props) => {
     );
 };
 
- const addTask = () => {
-     console.log('add task');
- }
-
-
-// const mapStateToProps = state => {
-//     return {
-//       availableTasks: state.dashboard.availableCards
-//     };
-//   };
-
-export default DoneComponent;
+ const mapStateToProps = state => {
+    return{
+      initialTasks: state.doneTasks
+    };
+  };
+  
+  export default connect(mapStateToProps)(DoneComponent);
+  
