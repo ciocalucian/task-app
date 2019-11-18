@@ -1,9 +1,11 @@
 .back-log-task {
     background-color: #C0D6DF;
     margin: 5px 0 5px 0;
-    border: 1px solid black;
     border-radius: 5px;
 }
 .back-log-padding-l {
     padding-left: 20px;
+}
+.selected{
+    background-color: #9EE493;
 }

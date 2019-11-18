@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import BackLogsTask from "../../components/backLogs-task.component";
 import "./backLogs.css";
 import NewTaskModal from "../../components/new-task.modal"
+import { selectedTask } from "../../redux/modules/backLogs"
+import { inProgressTasks } from "../../redux/modules/inProgress"
 
 
 
@@ -25,7 +27,6 @@ class BackLogsComponent extends Component {
     this.setState({
       ShowNewTaskModal: true
     })
-   // console.log(this.props.initialTasks)
   };
 
   closeModal = () =>{
@@ -35,7 +36,7 @@ class BackLogsComponent extends Component {
   };
 
   newTaskAdd = () => {
-    debugger;
+   // debugger;
     // const initialTasks = [...this.props.initialTasks]
     // const { task } =this.state;
 
@@ -48,21 +49,44 @@ class BackLogsComponent extends Component {
   }
 
 
+  handleClick = (key) => {
+    const {selectedTask } = this.props
 
-
-  deleteTask = (key) => {
-    let tasks = [...this.props.initialTasks];
-    console.log(tasks);
-    tasks = tasks.map( item => {
+    let tasksS = [...this.props.initialTasks];
+    tasksS = tasksS.map( item => {
       item.selected = false ;
-      console.log(item[key]);
       return item;
     });
     
-    tasks[key].selected = true;
-  
-   console.log("clicked optio",key, tasks[key].selected);
-    }
+    tasksS[key].selected = true;
+    
+    console.log(tasksS[key]);
+    selectedTask(tasksS);
+
+  }
+
+  nextTo = () => {
+    const {selectedTask } = this.props
+    const { inProgressTasks } = this.props
+
+    let tasksS = [...this.props.initialTasks];
+    let progressTasks = [...this.props.inProgressT]
+    
+    let filteredTasks = tasksS.filter( (item) => {
+      return item.selected === false;
+    });
+    selectedTask(filteredTasks);
+
+    let task = tasksS.filter( (item) => {
+      return item.selected === true;
+    });
+
+    progressTasks.push(task[0]);
+    let x = progressTasks.length - 1;
+    progressTasks[x].selected = false;
+
+    inProgressTasks(progressTasks);
+  }
 
   render() {
     const tasks = {...this.props.initialTasks};
@@ -74,15 +98,27 @@ class BackLogsComponent extends Component {
         <div className="text-center font-weight-bold t-color">Backlogs</div>
         
         {Object.keys(tasks).map(key => (
-          <BackLogsTask
-            name={tasks[key].name}
-            description={tasks[key].description}
-            onClick={this.deleteTask(key)}
-          />
+          <span onClick={() => this.handleClick(key)}>
+            <BackLogsTask
+          class={
+            "back-log-task" + 
+          (tasks[key].selected === true ? " selected": "")
+        }
+          name={tasks[key].name}
+          description={tasks[key].description}
+        />
+        </span>
         ))}
+        
+        <div>
         <button className="btn btn-primary mt-2" onClick={this.addTask}>
           Add a task
         </button>
+        <button className="btn btn-danger mt-2 float-right" onClick={this.nextTo}>
+          Next
+        </button>
+        </div>
+        
         <NewTaskModal
         show={this.state.ShowNewTaskModal}
         handleClose={this.closeModal}
@@ -99,8 +135,12 @@ class BackLogsComponent extends Component {
 
 const mapStateToProps = state => {
   return{
-    initialTasks: state.backLogs.backLogsTasks
+    initialTasks: state.backLogs.backLogsTasks,
+    inProgressT: state.inProgress.inProgressTasks
   };
 };
 
-export default connect(mapStateToProps)(BackLogsComponent);
+export default connect(
+  mapStateToProps,
+  { selectedTask, inProgressTasks },
+  )(BackLogsComponent);

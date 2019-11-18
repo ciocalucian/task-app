@@ -1,3 +1,5 @@
+
+
 export const GET_AVAILABLE_TASKS = 'backLogs/GET_AVAILABLE_TASKS';
 
 const initialState = {
@@ -15,7 +17,7 @@ const initialState = {
           {
             name: "task1",
             description: "asdkhgjkahsfd",
-            selected: false
+            selected: true
           },
           {
             name: "task2",
@@ -39,19 +41,22 @@ const initialState = {
 
 
 export default function(state = initialState, action) {
-    switch(action.type){
-        case GET_AVAILABLE_TASKS:
-            return {...state}
-    };
-      return state;
-}
+  switch(action.type){
+    case GET_AVAILABLE_TASKS:
+      return {
+        ...state,
+        backLogsTasks: action.payload
+      };
+      default:
+        return state;
+    }
+  }
 
 
-// const getAvailableTasks = () => {
-//     const tasksS = {...initialState.backLogsTasks}
+export const selectedTask = tasksS => {
     
-//     return {
-//         type: GET_AVAILABLE_TASKS,
-//         payload: tasksS
-//     }
-// }
+    return {
+        type: GET_AVAILABLE_TASKS,
+        payload: tasksS
+    }
+}

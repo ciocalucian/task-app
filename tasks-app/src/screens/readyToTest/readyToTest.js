@@ -35,4 +35,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ReadyToTestComponent);
+export default connect(
+  mapStateToProps,
+  {}
+  )
+(ReadyToTestComponent);

@@ -2,11 +2,11 @@ import React, {Component} from "react";
 import "./components.css"
 
 class BackLogsTask extends Component {
-   
   
     render() {
+    
       return (
-        <div className="back-log-task">
+        <div className={this.props.class} onClick={this.props.onTaskClick}>
             
             <div className="row back-log-padding-l">
                 <p className="m-0">{this.props.name}</p>

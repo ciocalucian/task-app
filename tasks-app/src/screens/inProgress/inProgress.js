@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import BackLogsTask from "../../components/backLogs-task.component";
 import "./inProgress.css"
+import { inProgressTasks } from "../../redux/modules/inProgress"
 
 class InProgressComponent extends Component {
   constructor(props) {
@@ -10,30 +11,60 @@ class InProgressComponent extends Component {
   };
 };
 
+handleClick = (key) => {
+  const { inProgressTasks } = this.props
+
+  let tasksS = [...this.props.initialProgressTasks];
+  tasksS = tasksS.map( item => {
+    item.selected = false ;
+    return item;
+  });
+  
+  tasksS[key].selected = true;
+  
+  console.log(tasksS[key]);
+  inProgressTasks(tasksS);
+
+}
+
 render() {
-  const tasks = {...this.props.initialTasks};
+  const tasks = [...this.props.initialProgressTasks];
     return (
        <div className="column color">
          <div className="text-center font-weight-bold t-color">In Progress</div>
          
-          {Object.keys(tasks).map( key => (
-            <BackLogsTask 
-            name={tasks[key].name} 
+          {Object.keys(tasks).map(key => (
+            <span onClick={() => this.handleClick(key)}>
+              <BackLogsTask
+            class={
+              "back-log-task" + 
+            (tasks[key].selected === true ? " selected": "")
+          }
+            name={tasks[key].name}
             description={tasks[key].description}
-            />
-              
+          />
+          </span>
           ))}
-       </div>
+
+          <div>
+              <button className="btn btn-danger mt-2" onClick={this.nextTo}>
+              Next
+              </button>
+          </div>
+        </div>
     );
-};
+}
 }
 
 
-
- const mapStateToProps = state => {
+const mapStateToProps = state => {
   return{
-    initialTasks: state.inProgressTasks
+    initialProgressTasks: state.inProgress.inProgressTasks,
+    
   };
 };
 
-export default connect(mapStateToProps)(InProgressComponent);
+export default connect(
+  mapStateToProps,
+  { inProgressTasks }
+  )(InProgressComponent);
